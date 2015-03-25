@@ -23,7 +23,7 @@ namespace :stack do
   stack = Stack.new(STACK, config.build_file)
 
   desc 'Create stack on tutum'
-  task :create do
+  task :create => :build do
     puts "Creating #{stack.name}..."
 
     stack.create
@@ -32,7 +32,7 @@ namespace :stack do
   end
 
   desc 'Update stack on tutum'
-  task :update do
+  task :update => :build do
     puts "Updating #{stack.name}..."
 
     stack.update
@@ -49,7 +49,7 @@ namespace :stack do
     puts "#{stack.name} is up and ready!"
   end
 
-  task :all => :build do
+  task :all do
     if stack.exists?
       Rake::Task['stack:update'].invoke
     else
