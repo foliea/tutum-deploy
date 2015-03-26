@@ -95,11 +95,11 @@ any of your vars files.
 Run a container with your config directory mounted as a volume:
 
     docker run -e TUTUM_USER=user \
-           -e TUTUM_APIKEY=apikey \
-           -e BUILD_ENV=staging \
-           -e PROJECT=myproject \
-           -v $(pwd)/config:/config \
-           -t foliea/tutum-deploy
+               -e TUTUM_APIKEY=apikey \
+               -e BUILD_ENV=staging \
+               -e PROJECT=myproject \
+               -v $(pwd)/config:/config \
+               -t foliea/tutum-deploy
 
 ### Environment variables
 
