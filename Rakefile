@@ -36,10 +36,10 @@ namespace :stack do
   task :all do
     if stack.exists?
       Rake::Task['stack:update'].invoke
-      Rake::Task['stack:redeploy'].invoke
     else
       Rake::Task['stack:create'].invoke
     end
+    Rake::Task['stack:redeploy'].invoke
   end
 end
 
