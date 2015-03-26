@@ -54,42 +54,34 @@ organized like this:
 
 In this case we are building a project called `myproject` in `staging`.
 
-1. Template
+1. Template `/config/templates/myproject.yml`
 
-`/config/templates/myproject.yml`:
+        redis:
+          image: redis:{{config.redis.version}}
+          expose:
+            - '6379'
+          volumes:
+            - '/redis:/data'
+          tags:
+            - {{config.project}}
+            - {{config.build_env}}
 
-```
-redis:
-  image: redis:{{config.redis.version}}
-  expose:
-    - '6379'
-  volumes:
-    - '/redis:/data'
-  tags:
-    - {{config.project}}
-    - {{config.build_env}}
-```
+2. Vars file `/config/vars/myproject/staging.yml`
 
-2. Vars file
+        redis:
+          version: 2.8.9
 
-```
-redis:
-  version: 2.8.9
-```
+3. Built configuration file `/build/myproject-staging.yml`
 
-3. Built configuration file:
-
-```
-redis:
-  image: redis:2.8.9
-  expose:
-    - '6379'
-  volumes:
-    - '/redis:/data'
-  tags:
-    - myproject
-    - staging
-```
+        redis:
+          image: redis:2.8.9
+          expose:
+            - '6379'
+          volumes:
+            - '/redis:/data'
+          tags:
+            - myproject
+            - staging
 
 > N.B. For convenience, project and build environment variables are
 available as configuration variables. You don't need to add them in
@@ -111,6 +103,6 @@ Run a container with your config directory mounted as a volume:
 * `TUTUM_USER`: Tutum username.
 * `TUTUM_APIKEY`: Tutum API key.
 * `BUILD_ENV`: Build environment, should match your vars file.
-* `PROJECT: Project name, should match both your template file name and
+* `PROJECT`: Project name, should match both your template file name and
 your vars directory.
 * `STACK`: Optional stack name (default: `$PROJECT-$BUILD_ENV`)
