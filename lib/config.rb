@@ -2,11 +2,11 @@ require 'mustache'
 require 'yaml'
 
 class Config
-  attr_reader :project, :build, :build_file
+  attr_reader :project, :build_env, :build_file
 
-  def initialize(project, build)
+  def initialize(project, build_env)
     @project    = project
-    @build      = build
+    @build_env  = build_end
     @tmpl_file  = "/config/templates/#{project}.yml"
     @vars_file  = "/config/vars/#{project}/#{build}.yml"
     @build_file = "build/#{project}-#{build}.yml"
@@ -15,6 +15,7 @@ class Config
   def build
     puts "Building #{@build_file}..."
     File.write(@build_file, content)
+    puts File.read(@build_file)
     puts "Built!"
   end
 
@@ -33,6 +34,6 @@ class Config
   end
 
   def default_vars
-    { project: @project, build: build }
+    { project: @project, build_env: @build_env }
   end
 end

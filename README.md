@@ -67,7 +67,7 @@ redis:
     - '/redis:/data'
   tags:
     - {{config.project}}
-    - {{config.build}}
+    - {{config.build_env}}
 ```
 
 2. Vars file
@@ -101,7 +101,7 @@ Run a container with your config directory mounted as a volume:
 
     docker run -e TUTUM_USER=user \
            -e TUTUM_APIKEY=apikey \
-           -e BUILD=staging \
+           -e BUILD_ENV=staging \
            -e PROJECT=myproject \
            -v $(pwd)/config:/config \
            -t foliea/tutum-deploy
@@ -110,7 +110,7 @@ Run a container with your config directory mounted as a volume:
 
 * `TUTUM_USER`: Tutum username.
 * `TUTUM_APIKEY`: Tutum API key.
-* `BUILD`: Build type, should match your vars file.
+* `BUILD_ENV`: Build environment, should match your vars file.
 * `PROJECT: Project name, should match both your template file name and
 your vars directory.
-* `STACK`: Optional stack name (default: `$PROJECT-$BUILD`)
+* `STACK`: Optional stack name (default: `$PROJECT-$BUILD_ENV`)

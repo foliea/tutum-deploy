@@ -3,10 +3,10 @@ $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 require 'config'
 require 'stack'
 
-PROJECT = ENV.fetch('PROJECT')
-BUILD   = ENV.fetch('BUILD')
+PROJECT     = ENV.fetch('PROJECT')
+BUILD_ENV   = ENV.fetch('BUILD_ENV')
 
-config = Config.new(PROJECT, BUILD)
+config = Config.new(PROJECT, BUILD_ENV)
 
 desc 'Build config file in build directory'
 task :build do
@@ -14,7 +14,7 @@ task :build do
 end
 
 namespace :stack do
-  STACK = ENV.fetch('STACK', "#{PROJECT}-#{BUILD}")
+  STACK = ENV.fetch('STACK', "#{PROJECT}-#{BUILD_ENV}")
 
   stack = Stack.new(STACK, config.build_file)
 
@@ -44,4 +44,4 @@ namespace :stack do
 end
 
 task :stack => 'stack:all'
-task :default => [:build, :stack]
+task :default => [:stack]
