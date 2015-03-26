@@ -3,16 +3,22 @@ class Stack < Struct.new(:name, :file)
     system "tutum stack inspect #{name}"
   end
 
-  def update
-    sh "tutum stack update --file #{file} #{name}"
-  end
-
   def create
+    puts "Creating #{name}..."
     sh "tutum stack create --file #{file} --name #{name}"
+    puts "Created!"
   end
 
-  def deploy
+  def update
+    puts "Updating #{name}..."
+    sh "tutum stack update --file #{file} #{name}"
+    puts "Updated!"
+  end
+
+  def redeploy
+    puts "Deploying #{name}..."
     sh "tutum stack redeploy #{name}"
+    puts "#{name} is up and ready!"
   end
 
   private

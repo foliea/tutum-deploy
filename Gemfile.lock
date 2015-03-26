@@ -15,6 +15,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  mustache
+  mustache (~> 1.0.1)
   pry (~> 0.10)
   rake (~> 10.4)

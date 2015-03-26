@@ -25,4 +25,4 @@ COPY . $DEV
 
 WORKDIR $DEV
 
-ENTRYPOINT ["rake", "stack:all"]
+ENTRYPOINT ["bundle", "exec" , "rake"]
