@@ -6,9 +6,12 @@ published to the public docker hub registry.
 
 Create, update and deploy a stack on [tutum](https://www.tutum.co/).
 
-This image renders a stack configuration file from a given
+This image first renders a stack configuration file from a given
 [mustache](https://mustache.github.io/) template and a YAML file corresponding
 to the environment build to deploy.
+
+Then this image create (if stack doesn't exist) or update a stack with this configuration
+file and redeploy the stack.
 
 ## Base Docker Image
 
