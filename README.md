@@ -6,9 +6,12 @@ published to the public docker hub registry.
 
 Create, update and deploy a stack on [tutum](https://www.tutum.co/).
 
-This image renders a stack configuration file from a given
+This image first renders a stack configuration file from a given
 [mustache](https://mustache.github.io/) template and a YAML file corresponding
 to the environment build to deploy.
+
+Then this image create (if the stack doesn't exist) or update a stack with this configuration
+file and redeploy this stack.
 
 ## Base Docker Image
 
@@ -54,42 +57,34 @@ organized like this:
 
 In this case we are building a project called `myproject` in `staging`.
 
-1. Template
+1. Template `/config/templates/myproject.yml`
 
-`/config/templates/myproject.yml`:
+        redis:
+          image: redis:{{config.redis.version}}
+          expose:
+            - '6379'
+          volumes:
+            - '/redis:/data'
+          tags:
+            - {{config.project}}
+            - {{config.build_env}}
 
-```
-redis:
-  image: redis:{{config.redis.version}}
-  expose:
-    - '6379'
-  volumes:
-    - '/redis:/data'
-  tags:
-    - {{config.project}}
-    - {{config.build_env}}
-```
+2. Vars file `/config/vars/myproject/staging.yml`
 
-2. Vars file
+        redis:
+          version: 2.8.9
 
-```
-redis:
-  version: 2.8.9
-```
+3. Built configuration file `/build/myproject-staging.yml`
 
-3. Built configuration file:
-
-```
-redis:
-  image: redis:2.8.9
-  expose:
-    - '6379'
-  volumes:
-    - '/redis:/data'
-  tags:
-    - myproject
-    - staging
-```
+        redis:
+          image: redis:2.8.9
+          expose:
+            - '6379'
+          volumes:
+            - '/redis:/data'
+          tags:
+            - myproject
+            - staging
 
 > N.B. For convenience, project and build environment variables are
 available as configuration variables. You don't need to add them in
@@ -100,17 +95,17 @@ any of your vars files.
 Run a container with your config directory mounted as a volume:
 
     docker run -e TUTUM_USER=user \
-           -e TUTUM_APIKEY=apikey \
-           -e BUILD_ENV=staging \
-           -e PROJECT=myproject \
-           -v $(pwd)/config:/config \
-           -t foliea/tutum-deploy
+               -e TUTUM_APIKEY=apikey \
+               -e BUILD_ENV=staging \
+               -e PROJECT=myproject \
+               -v $(pwd)/config:/config \
+               -t foliea/tutum-deploy
 
 ### Environment variables
 
 * `TUTUM_USER`: Tutum username.
 * `TUTUM_APIKEY`: Tutum API key.
 * `BUILD_ENV`: Build environment, should match your vars file.
-* `PROJECT: Project name, should match both your template file name and
+* `PROJECT`: Project name, should match both your template file name and
 your vars directory.
 * `STACK`: Optional stack name (default: `$PROJECT-$BUILD_ENV`)
