@@ -6,10 +6,10 @@ class Config
 
   def initialize(project, build_env)
     @project    = project
-    @build_env  = build_end
+    @build_env  = build_env
     @tmpl_file  = "/config/templates/#{project}.yml"
-    @vars_file  = "/config/vars/#{project}/#{build}.yml"
-    @build_file = "build/#{project}-#{build}.yml"
+    @vars_file  = "/config/vars/#{project}/#{build_env}.yml"
+    @build_file = "build/#{project}-#{build_env}.yml"
   end
 
   def build
@@ -22,6 +22,7 @@ class Config
   private
 
   def content
+    p vars
     Mustache.render(template, config: vars)
   end
 
