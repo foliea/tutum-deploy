@@ -22,7 +22,6 @@ class Config
   private
 
   def content
-    p vars
     Mustache.render(template, config: vars)
   end
 
