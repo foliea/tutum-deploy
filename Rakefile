@@ -30,7 +30,7 @@ namespace :stack do
 
   desc 'Redeploy stack on tutum'
   task :redeploy do
-    stack.deploy
+    stack.redeploy
   end
 
   task :all do
