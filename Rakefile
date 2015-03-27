@@ -1,42 +1,35 @@
 $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 
-require 'config'
-require 'stack'
-
-PROJECT     = ENV.fetch('PROJECT')
-BUILD_ENV   = ENV.fetch('BUILD_ENV')
-
-config = Config.new(PROJECT, BUILD_ENV)
+require 'tutum'
 
 desc 'Build config file in build directory'
 task :build do
-  config.build
+  Tutum.config.build
 end
 
 namespace :stack do
-  STACK = ENV.fetch('STACK', "#{PROJECT}-#{BUILD_ENV}")
-
-  stack = Stack.new(STACK, config.build_file)
+  stack = Tutum.stack
 
   desc 'Create stack on tutum'
   task :create => :build do
-    stack.create
+    Tutum.stack.create
   end
 
   desc 'Update stack on tutum'
   task :update => :build do
-    stack.update
+    Tutum.stack.update
   end
 
   desc 'Redeploy stack on tutum'
   task :redeploy do
-    stack.redeploy
+    Tutum.stack.redeploy
   end
 
   task :all do
     if stack.exists?
       Rake::Task['stack:update'].invoke
     else
+      puts "Stack doesn't exist"
       Rake::Task['stack:create'].invoke
     end
     Rake::Task['stack:redeploy'].invoke

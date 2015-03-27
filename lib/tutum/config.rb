@@ -1,7 +1,7 @@
 require 'mustache'
 require 'yaml'
 
-class Config
+class Tutum::Config
   attr_reader :project, :build_env, :build_file
 
   def initialize(project, build_env)
