@@ -2,9 +2,11 @@ $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 
 require 'tutum'
 
+config = Tutum.config
+
 desc 'Build config file in build directory'
 task :build do
-  Tutum.config.build
+  config.build
 end
 
 namespace :stack do
@@ -12,24 +14,23 @@ namespace :stack do
 
   desc 'Create stack on tutum'
   task :create => :build do
-    Tutum.stack.create
+    stack.create
   end
 
   desc 'Update stack on tutum'
   task :update => :build do
-    Tutum.stack.update
+    stack.update
   end
 
   desc 'Redeploy stack on tutum'
   task :redeploy do
-    Tutum.stack.redeploy
+    stack.redeploy
   end
 
   task :all do
     if stack.exists?
       Rake::Task['stack:update'].invoke
     else
-      puts "Stack doesn't exist"
       Rake::Task['stack:create'].invoke
     end
     Rake::Task['stack:redeploy'].invoke
