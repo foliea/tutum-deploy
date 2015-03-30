@@ -1,8 +1,8 @@
 module Tutum
   extend self
 
-  require 'tutum/config'
-  require 'tutum/stack'
+  require_relative 'tutum/config'
+  require_relative 'tutum/stack'
 
   def config
     @config ||= Config.new(project, build_env)
