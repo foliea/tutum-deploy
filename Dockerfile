@@ -11,9 +11,6 @@ RUN apt-get update -qq && \
 # Install tutum-cli
 RUN pip install tutum
 
-# Install bundler.
-RUN gem install bundler
-
 # Copy the Gemfile and Gemfile.lock into the image.
 COPY Gemfile $DEV/
 COPY Gemfile.lock $DEV/
